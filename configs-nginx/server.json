@@ -1,0 +1,30 @@
+{
+  "LaciSynchroni": {
+    "ShardName": "Main",
+    "MetricsPort": 6050,
+    "MainServerAddress": "",
+    "FailedAuthForTempBan": 5,
+    "TempBanDurationInMinutes": 5,
+    "WhitelistedIps": [""],
+    "MaxExistin   gGroupsByUser": 2,
+    "MaxJoinedGroupsByUser": 5,
+    "MaxGroupUserCount": 50,
+    "PurgeUnusedAccounts": true,
+    "PurgeUnusedAccountsPeriodInDays": 30,
+    "ExpectedClientVersion": "1.11.24",
+    "MaxCharaDataByUser": 25,
+    "MaxCharaDataByUserVanity": 50,
+    "DiscordInvite": null,
+    "ServerRules": null
+  },
+  "AllowedHosts": "*",
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://+:6000"
+      }
+    }
+  },
+  "IpRateLimiting": {},
+  "IPRateLimitPolicies": {}
+}
