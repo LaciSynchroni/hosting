@@ -6,7 +6,7 @@
     "FailedAuthForTempBan": 5,
     "TempBanDurationInMinutes": 5,
     "WhitelistedIps": [""],
-    "MaxExistin   gGroupsByUser": 2,
+    "MaxExistingGroupsByUser": 2,
     "MaxJoinedGroupsByUser": 5,
     "MaxGroupUserCount": 50,
     "PurgeUnusedAccounts": true,

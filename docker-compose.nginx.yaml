@@ -15,7 +15,7 @@ services:
       timeout: 5s
       retries: 5
   web:
-    image: docker.io/staticfloat/nginx-certbot
+    image: docker.io/jonasal/nginx-certbot
     restart:
       always
     volumes:
