@@ -24,7 +24,7 @@ In the .env file that is now in your ``~/laci`` folder, change what needs changi
 
 - LACI_POSTGRES_PASSWORD to a **secure password**. You can use ``pwgen -s 30 1`` to generate one.
 - LACI_REDIS_PASSWORD to a **secure password**. You can use ``pwgen -s 30 1`` to generate one.
-- LACI_JWT_SIGNING_KEY to a **secure string** that should be decently long. You can use ``pwgen -s 60 1`` to generate one.
+- LACI_JWT_SIGNING_KEY to a **secure string** that should be at least 128bit long. You can use ``pwgen -s 60 1`` to generate one.
 - LACI_PUBLIC_URI is ``wss://sync.<yourdomain>``, for example ``wss://sync.elegant-venue.party``
 - LACI_CDN_URI is ``wss://cdn.<yourdomain>``, for example ``wss://cdn.elegant-venue.party``
 - LACI_DISCORD_TOKEN is your discord bot token
