@@ -100,6 +100,7 @@ services:
   files:
     image: ghcr.io/lacisynchroni/staticfilesserver:1.1.0
     restart: on-failure
+    user: "root:root"
     environment:
       SinusSynchronous__JCdnFullUrl: "${LACI_CDN_URI}"
       SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
