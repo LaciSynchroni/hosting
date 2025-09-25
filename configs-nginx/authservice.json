@@ -1,5 +1,5 @@
 {
-  "LaciSynchroni": {
+  "SinusSynchronous": {
     "MetricsPort": 6150,
     "ShardName": "AuthServices",
     "GeoIPDbCityFile": "",

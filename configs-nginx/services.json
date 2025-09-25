@@ -1,5 +1,5 @@
 {
-  "LaciSynchroni": {
+  "SinusSynchronous": {
     "ShardName": "Services",
     "MetricsPort": 6150,
     "MainServerAddress": "http://server:6000/",

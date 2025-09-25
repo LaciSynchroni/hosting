@@ -28,29 +28,25 @@ services:
       CERTBOT_EMAIL: "${CERTBOT_EMAIL}"
   redis:
     image: redis:latest
-    env_file:
-      - path: ./.env.local
-        required: true
     command: [sh, -c, "rm -f /data/dump.rdb && redis-server --save \"\" --appendonly no --requirepass ${LACI_REDIS_PASSWORD}"]
     volumes:
       - rediscache:/data
 
   server:
-    image: ghcr.io/lacisynchroni/server:latest
+    image: ghcr.io/lacisynchroni/server:1.1.0
     restart: on-failure
     environment:
-      LaciSynchroni__ShardName: "${LACI_SHARD_NAME}"
-      LaciSynchroni__ServerName: "${LACI_SERVER_NAME}"
-      LaciSynchroni__ServerPublicUri: "${LACI_PUBLIC_URI}"
-      LaciSynchroni__CdnFullUrl: "${LACI_CDNURL}"
-      LaciSynchroni__Jwt: "${LACI_JWT_SIGNING_KEY}"
-      LaciSynchroni__JwtKeyId: "${LACI_JWT_KEY_ID}"
-      LaciSynchroni__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
+      SinusSynchronous__ShardName: "${LACI_SHARD_NAME}"
+      SinusSynchronous__ServerName: "${LACI_SERVER_NAME}"
+      SinusSynchronous__ServerPublicUri: "${LACI_PUBLIC_URI}"
+      SinusSynchronous__CdnFullUrl: "${LACI_CDNURL}"
+      SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
+      SinusSynchronous__JwtKeyId: "${LACI_JWT_KEY_ID}"
+      SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
-      - ./appconfigs/server.json:/opt/LaciSynchroni/Server/appsettings.json
-      - ./logs/server/:/opt/LaciSynchroni/Server/logs/:rw
+      - ./configs/server.json:/opt/LaciSynchroni/Server/appsettings.json
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,18 +57,17 @@ services:
       timeout: 1s
 
   services:
-    image: ghcr.io/lacisynchroni/services:latest
+    image: ghcr.io/lacisynchroni/services:1.1.0
     restart: on-failure
     environment:
-      LaciSynchroni__DiscordBotToken: "${LACI_DISCORD_TOKEN}"
-      LaciSynchroni__Jwt: "${LACI_JWT_SIGNING_KEY}"
-      LaciSynchroni__JwtKeyId: "${LACI_JWT_KEY_ID}"
-      LaciSynchroni__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
+      SinusSynchronous__DiscordBotToken: "${LACI_DISCORD_TOKEN}"
+      SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
+      SinusSynchronous__JwtKeyId: "${LACI_JWT_KEY_ID}"
+      SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
-      - ./appconfigs/services.json:/opt/LaciSynchroni/Services/appsettings.json
-      - ./logs/services/:/opt/LaciSynchroni/Services/logs/:rw
+      - ./configs/services.json:/opt/LaciSynchroni/Services/appsettings.json
     depends_on:
       server:
         condition: service_healthy
@@ -80,20 +75,19 @@ services:
         condition: service_healthy
 
   auth:
-    image: ghcr.io/lacisynchroni/authservice:latest
+    image: ghcr.io/lacisynchroni/authservice:1.1.0
     restart: on-failure
     environment:
-      LaciSynchroni__PublicOAuthBaseUri: "${LACI_PUBLIC_OAUTH_BASE_URI}"
-      LaciSynchroni__DiscordOAuthClientSecret: "${LACI_DISCORD_OAUTH_CLIENT_SECRET}"
-      LaciSynchroni__DiscordOAuthClientId: "${LACI_DISCORD_OAUTH_CLIENT_ID}"
-      LaciSynchroni__Jwt: "${LACI_JWT_SIGNING_KEY}"
-      LaciSynchroni__JwtKeyId: "${LACI_JWT_KEY_ID}"
-      LaciSynchroni__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
+      SinusSynchronous__PublicOAuthBaseUri: "${LACI_PUBLIC_OAUTH_BASE_URI}"
+      SinusSynchronous__DiscordOAuthClientSecret: "${LACI_DISCORD_OAUTH_CLIENT_SECRET}"
+      SinusSynchronous__DiscordOAuthClientId: "${LACI_DISCORD_OAUTH_CLIENT_ID}"
+      SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
+      SinusSynchronous__JwtKeyId: "${LACI_JWT_KEY_ID}"
+      SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
-      - ./appconfigs/authservice.json:/opt/LaciSynchroni/AuthService/appsettings.json
-      - ./logs/static-files/:/opt/LaciSynchroni/AuthService/logs/:rw
+      - ./configs/authservice.json:/opt/LaciSynchroni/AuthService/appsettings.json
     depends_on:
       server:
         condition: service_healthy
@@ -101,18 +95,17 @@ services:
         condition: service_healthy
 
   files:
-    image: ghcr.io/lacisynchroni/staticfilesserver:latest
+    image: ghcr.io/lacisynchroni/staticfilesserver:1.1.0
     restart: on-failure
     environment:
-      LaciSynchroni__JCdnFullUrl: "${LACI_CDN_URI}"
-      LaciSynchroni__Jwt: "${LACI_JWT_SIGNING_KEY}"
-      LaciSynchroni__JwtKeyId: "${LACI_JWT_KEY_ID}"
-      LaciSynchroni__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
+      SinusSynchronous__JCdnFullUrl: "${LACI_CDN_URI}"
+      SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
+      SinusSynchronous__JwtKeyId: "${LACI_JWT_KEY_ID}"
+      SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
-      - ./appconfigs/files.json:/opt/LaciSynchroni/StaticFilesServer/appsettings.json
-      - ./logs/static-files/:/opt/LaciSynchroni/StaticFilesServer/logs/:rw
+      - ./configs/files.json:/opt/LaciSynchroni/StaticFilesServer/appsettings.json
       - mod_file_cache:/laci-cache/:rw
     depends_on:
       postgres:
