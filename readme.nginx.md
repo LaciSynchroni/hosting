@@ -11,7 +11,7 @@
 
 ## Installation
 Make sure all dependencies are installed and the domains are registered properly
-1. ``git clone git@github.com:LaciSynchroni/hosting.git laci``
+1. ``git clone https://github.com/LaciSynchroni/hosting.git laci``
 2. ``cd laci``
 3. ``cp sample.env .env``
 4. ``cp docker-compose.nginx.yaml docker-compose.yaml``
@@ -38,5 +38,5 @@ all those references to your own domain. Keep the ``files.`` subdomain.
 
 ## Starting
 1. ``cd ~/laci``
-2. ``docker compose pull``
-3. ``docker compose up -d``
+2. ``docker compose --env-file .env pull``
+3. ``docker compose --env-file .env up -d``

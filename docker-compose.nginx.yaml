@@ -45,6 +45,7 @@ services:
       SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
+      APPSETTINGS_PATH: "/opt/LaciSynchroni/Server/appsettings.json"
     volumes:
       - ./configs/server.json:/opt/LaciSynchroni/Server/appsettings.json
     depends_on:
@@ -66,6 +67,7 @@ services:
       SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
+      APPSETTINGS_PATH: "/opt/LaciSynchroni/Services/appsettings.json"
     volumes:
       - ./configs/services.json:/opt/LaciSynchroni/Services/appsettings.json
     depends_on:
@@ -86,6 +88,7 @@ services:
       SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
+      APPSETTINGS_PATH: "/opt/LaciSynchroni/AuthService/appsettings.json"
     volumes:
       - ./configs/authservice.json:/opt/LaciSynchroni/AuthService/appsettings.json
     depends_on:
@@ -104,6 +107,7 @@ services:
       SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${LACI_POSTGRES_DB};Username=${LACI_POSTGRES_USER};Password=${LACI_POSTGRES_PASSWORD};Keepalive=15;Minimum Pool Size=10;Maximum Pool Size=50;No Reset On Close=true;Max Auto Prepare=50;Enlist=false"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
+      APPSETTINGS_PATH: "/opt/LaciSynchroni/StaticFilesServer/appsettings.json"
     volumes:
       - ./configs/files.json:/opt/LaciSynchroni/StaticFilesServer/appsettings.json
       - mod_file_cache:/laci-cache/:rw
