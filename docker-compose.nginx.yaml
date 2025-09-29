@@ -39,7 +39,7 @@ services:
       SinusSynchronous__ShardName: "${LACI_SHARD_NAME}"
       SinusSynchronous__ServerName: "${LACI_SERVER_NAME}"
       SinusSynchronous__ServerPublicUri: "${LACI_PUBLIC_URI}"
-      SinusSynchronous__CdnFullUrl: "${LACI_CDN_URL}"
+      SinusSynchronous__CdnFullUrl: "${LACI_CDN_URI}"
       SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
       SinusSynchronous__JwtKeyId: "${LACI_JWT_KEY_ID}"
       SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
