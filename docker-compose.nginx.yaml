@@ -100,9 +100,10 @@ services:
   files:
     image: ghcr.io/lacisynchroni/staticfilesserver:1.1.0
     restart: on-failure
+    # This enables full access on the mod_file_cache
     user: "root:root"
     environment:
-      SinusSynchronous__JCdnFullUrl: "${LACI_CDN_URI}"
+      SinusSynchronous__CdnFullUrl: "${LACI_CDN_URI}"
       SinusSynchronous__Jwt: "${LACI_JWT_SIGNING_KEY}"
       SinusSynchronous__JwtKeyId: "${LACI_JWT_KEY_ID}"
       SinusSynchronous__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
