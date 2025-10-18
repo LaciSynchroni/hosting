@@ -8,14 +8,14 @@ services:
       POSTGRES_USER: "${LACI_POSTGRES_USER}"
       POSTGRES_PASSWORD: "${LACI_POSTGRES_PASSWORD}"
     volumes:
-      - postgresql:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${LACI_POSTGRES_USER} -d ${LACI_POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
   web:
-    image: docker.io/jonasal/nginx-certbot
+    image: docker.io/jonasal/nginx-certbot:6
     restart: unless-stopped
     volumes:
       - ./configs/conf.d:/etc/nginx/user_conf.d:ro
@@ -26,7 +26,7 @@ services:
     environment:
       CERTBOT_EMAIL: "${CERTBOT_EMAIL}"
   redis:
-    image: redis:latest
+    image: redis:8
     command: [sh, -c, "rm -f /data/dump.rdb && redis-server --save \"\" --appendonly no --requirepass ${LACI_REDIS_PASSWORD}"]
     volumes:
       - rediscache:/data
@@ -50,7 +50,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:6000/health || exit 1"]
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/6000;echo -e \"GET /health HTTP/1.1\r\nhost: localhost:6000\r\nConnection: close\r\n\r\n\" >&3;grep \"HTTP/1.1 200 OK\" <&3"]
       retries: 60
       start_period: 10s
       timeout: 1s
@@ -69,7 +69,7 @@ services:
       - ./configs/services.json:/opt/LaciSynchroni/Services/appsettings.json
       - ./configs/base.json:/opt/LaciSynchroni/Services/base.appsettings.json
     depends_on:
-      server:
+      laci-server:
         condition: service_healthy
       postgres:
         condition: service_healthy
@@ -90,7 +90,7 @@ services:
       - ./configs/authservice.json:/opt/LaciSynchroni/AuthService/appsettings.json
       - ./configs/base.json:/opt/LaciSynchroni/AuthService/base.appsettings.json
     depends_on:
-      server:
+      laci-server:
         condition: service_healthy
       postgres:
         condition: service_healthy
@@ -113,10 +113,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      server:
+      laci-server:
         condition: service_healthy
   pgbackups:
-    image: docker.io/prodrigestivill/postgres-backup-local
+    image: docker.io/prodrigestivill/postgres-backup-local:18
     restart: unless-stopped
     volumes:
       - ./pg-backups:/backups
@@ -129,9 +129,9 @@ services:
       POSTGRES_DB: "${LACI_POSTGRES_DB}"
       POSTGRES_USER: "${LACI_POSTGRES_USER}"
       POSTGRES_PASSWORD: "${LACI_POSTGRES_PASSWORD}"
-      POSTGRES_EXTRA_OPTS: --format=custom
-      SCHEDULE: @daily
-      BACKUP_ON_START: TRUE
+      POSTGRES_EXTRA_OPTS: "--format=custom"
+      SCHEDULE: "@daily"
+      BACKUP_ON_START: "TRUE"
       BACKUP_KEEP_DAYS: 30
       BACKUP_KEEP_WEEKS: 4
       BACKUP_KEEP_MONTHS: 6
