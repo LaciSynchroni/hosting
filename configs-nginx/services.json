@@ -1,8 +1,8 @@
 {
-  "SinusSynchronous": {
+  "LaciSynchroni": {
     "ShardName": "Services",
     "MetricsPort": 6150,
-    "MainServerAddress": "http://server:6000/",
+    "MainServerAddress": "http://laci-server:6000/",
     "DiscordChannelForMessages": "",
     "DiscordChannelForCommands": "",
     "DiscordChannelForBotLog": "",
@@ -12,7 +12,22 @@
     "UidLength": 10,
     "LockRegistrationToRole": false,
     "DiscordRegistrationRole": "",
-    "SecondaryUIDLimit": 5
+    "SecondaryUIDLimit": 5,
+    "AllowedDiscordLogs": [
+      "Startup",
+      "VanityCleanup",
+      "UserProcessing",
+      "RegistrationRole",
+      "ModeratorAction",
+      "Register",
+      "Delete",
+      "SecondaryAdd",
+      "VanitySet",
+      "Recover",
+      "Relink",
+      "CaptchaFailed"
+    ],
+    "RunVanityCleanup": false
   },
   "AllowedHosts": "*",
   "Kestrel": {},
