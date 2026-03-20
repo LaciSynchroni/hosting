@@ -63,6 +63,7 @@ services:
     environment:
       LaciSynchroni__DiscordBotToken: "${LACI_DISCORD_TOKEN}"
       LaciSynchroni__Jwt: "${LACI_JWT}"
+      LaciSynchroni__ServerPublicUri: "${LACI_PUBLIC_URI}"
       LaciSynchroni__JwtKeyId: "${LACI_JWT_KEY_ID}"
       LaciSynchroni__RedisConnectionString: "redis,password=${LACI_REDIS_PASSWORD}"
       LaciSynchroni__DiscordChannelForCommands: "${LACI_DISCORD_SELF_SERVICE_CHANNEL_ID}"
